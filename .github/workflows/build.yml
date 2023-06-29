@@ -1,0 +1,27 @@
+name: Build
+
+on: [push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+        # This is done despite the fact that the node_modules/ should already be provided in the repository.
+        # This is to enforce that we are not installing local packages in the released version.
+      - run: npm ci
+        # The package should be built by the Git hook already, but it's an additional sanity check.
+      - run: npm run compile
+      - run: npm run lint
+      - run: npm run test:coverage:lcov
+      - uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

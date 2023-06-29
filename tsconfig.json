@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "module": "node16",
+    "outDir": "dist",
+    "strict": true,
+    "target": "esnext",
+    "sourceMap": true,
+    "allowJs": true,
+    "lib": ["esnext"],
+    "incremental": true,
+    "noEmit": true
+  },
+  "include": [ "src/**/*", "**/.eslintrc.js", "test/**/*", "nyc.config.js" ],
+  "exclude": [ "dist/**/*" ]
+}
