@@ -21,7 +21,10 @@ async function main() {
       example: inputs.example,
     },
   });
-  await handler.handle();
+  const outputs = await handler.handle();
+  for (const [key, value] of Object.entries(outputs)) {
+    core.setOutput(key, value);
+  }
 }
 
 main().catch((err: Error) => core.setFailed(VError.fullStack(err)));
