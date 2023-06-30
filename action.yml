@@ -4,6 +4,9 @@ inputs:
   example:
     description: An example input
     required: true
+outputs:
+  example-output:
+    description: An example output
 runs:
-  using: "node16"
-  main: dist/index.js
+  using: "docker"
+  image: Dockerfile

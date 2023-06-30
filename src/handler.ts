@@ -1,12 +1,15 @@
 import { Context } from "@actions/github/lib/context.js";
-import VError = require("verror");
 
 export interface Config {
   example: string;
 }
 
+export interface Outputs {
+  ["example-output"]: string;
+}
+
 export interface Handler {
-  handle(): Promise<void>;
+  handle(): Promise<Outputs>;
 }
 
 export class HandlerImpl implements Handler {
@@ -21,8 +24,11 @@ export class HandlerImpl implements Handler {
     this.config = config;
   }
 
-  handle(): Promise<void> {
-    throw new VError({ name: HandlerImpl.ERROR_NAME }, "implement me!");
+  handle(): Promise<Outputs> {
+    const outputs = {
+      ["example-output"]: "hello-world",
+    };
+    return Promise.resolve(outputs);
   }
 }
 
