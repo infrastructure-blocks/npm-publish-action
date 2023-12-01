@@ -1,18 +1,21 @@
 import { Context } from "@actions/github/lib/context.js";
 
+// TODO: move into lib?
+export type Outputs = Record<string, string>;
+
+export interface Handler<O extends Outputs = Outputs> {
+  handle(): Promise<O>;
+}
+
 export interface Config {
   example: string;
 }
 
-export interface Outputs {
+export interface ExampleOutputs extends Outputs {
   ["example-output"]: string;
 }
 
-export interface Handler {
-  handle(): Promise<Outputs>;
-}
-
-export class HandlerImpl implements Handler {
+export class HandlerImpl implements Handler<ExampleOutputs> {
   private static ERROR_NAME = "HandlerImplError";
 
   private readonly context: Context;
@@ -24,7 +27,7 @@ export class HandlerImpl implements Handler {
     this.config = config;
   }
 
-  handle(): Promise<Outputs> {
+  handle(): Promise<ExampleOutputs> {
     const outputs = {
       ["example-output"]: "hello-world",
     };
