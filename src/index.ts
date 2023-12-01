@@ -23,6 +23,7 @@ async function main() {
   });
   const outputs = await handler.handle();
   for (const [key, value] of Object.entries(outputs)) {
+    core.debug(`setting output ${key}=${value}`);
     core.setOutput(key, value);
   }
 }
