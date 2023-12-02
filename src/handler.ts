@@ -29,7 +29,7 @@ export class HandlerImpl implements Handler<ExampleOutputs> {
 
   handle(): Promise<ExampleOutputs> {
     const outputs = {
-      ["example-output"]: "hello-world",
+      ["example-output"]: `got input ${this.config.example}`,
     };
     return Promise.resolve(outputs);
   }

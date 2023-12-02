@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import { context } from "@actions/github";
 import { createHandler } from "./handler.js";
-import VError = require("verror");
+import VError from "verror";
 import {
   checkSupportedEvent,
   Event,

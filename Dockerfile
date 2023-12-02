@@ -29,4 +29,5 @@ RUN cd /action/ && \
     npm prune --production && \
     rm -rf src tsconfig.json tsconfig.build.json
 
-CMD node /action/dist/index.js
+COPY entrypoint.sh ./
+ENTRYPOINT ["./entrypoint.sh"]

@@ -1,7 +1,12 @@
 # github-action-typescript-template
 
-This whole README file should be copied and edited. This template suggests a structure that should be
-respected and some sections can be use verbatim across repositories.
+This is a template repository and several updates should be taken after using it as a repository generator:
+- Update this README to reflect the new action
+- Update package.json fields such as name, description, etc...
+- Update action.yml
+- Update entrypoint.sh to remap your command's arguments/inputs
+- Update the container name in docker-compose.yml
+- Update self-test.yml workflow
 
 ## Usage
 
