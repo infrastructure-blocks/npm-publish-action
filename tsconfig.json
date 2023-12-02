@@ -3,7 +3,7 @@
     "declaration": true,
     "importHelpers": true,
     "skipLibCheck": true,
-    "module": "node16",
+    "module": "nodenext",
     "outDir": "dist",
     "strict": true,
     "target": "esnext",
