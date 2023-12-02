@@ -14,9 +14,6 @@ module.exports = {
     "prettier",
     "plugin:prettier/recommended",
   ],
-  rules: {
-    "@typescript-eslint/no-unsafe-assignment": "off", // Prevents assigning error objects as VError causes
-  },
   env: {
     node: true,
   },
