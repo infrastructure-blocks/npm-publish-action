@@ -1,0 +1,19 @@
+name: Self Test
+
+on: [push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  self-test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        id: self-test
+        with:
+          example: example input
+      - run: |
+          echo ${{ steps.self-test.outputs.example-output }}

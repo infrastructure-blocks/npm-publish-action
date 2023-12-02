@@ -1,5 +1,5 @@
 {
-  "name": "github-action-typescript-template",
+  "name": "github-action-typescript-docker-template",
   "version": "0.0.0",
   "description": "GitHub action Typescript template",
   "type": "module",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PhilLavoie/github-action-typescript-template.git"
+    "url": "git+https://github.com/infrastructure-blocks/github-action-typescript-docker-template.git"
   },
   "author": "PhilLavoie",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/PhilLavoie/github-action-typescript-template/issues"
+    "url": "https://github.com/infrastructure-blocks/github-action-typescript-docker-template/issues"
   },
-  "homepage": "https://github.com/PhilLavoie/github-action-typescript-template#readme",
+  "homepage": "https://github.com/infrastructure-blocks/github-action-typescript-docker-template#readme",
   "devDependencies": {
     "@infra-blocks/test": "^0.1.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
