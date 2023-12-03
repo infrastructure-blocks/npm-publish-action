@@ -1,5 +1,8 @@
 name: Git tag and publish
 
+permissions:
+  contents: write
+
 on:
   pull_request:
     types:
