@@ -1,0 +1,53 @@
+{
+  "name": "github-action-typescript-docker-template",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "npm run clean && tsc --project tsconfig.build.json",
+    "build:docker": "docker compose build action",
+    "clean": "rm -rf dist",
+    "compile": "tsc",
+    "lint": "eslint --ext .js,.ts --max-warnings 0 .",
+    "start": "node dist/index.js",
+    "start:docker": "docker compose run --rm action",
+    "test": "npm run test:unit",
+    "test:coverage": "c8 npm run test",
+    "test:coverage:lcov": "c8 --reporter=lcov npm run test",
+    "test:unit": "mocha --config test/unit/.mocharc.cjs 'test/unit/**/*.spec.ts'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infrastructure-blocks/github-action-typescript-docker-template.git"
+  },
+  "author": "PhilLavoie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/infrastructure-blocks/github-action-typescript-docker-template/issues"
+  },
+  "homepage": "https://github.com/infrastructure-blocks/github-action-typescript-docker-template#readme",
+  "devDependencies": {
+    "@infra-blocks/test": "^0.1.1",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^16.11.25",
+    "@types/verror": "^1.10.5",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "c8": "^8.0.0",
+    "eslint": "^8.9.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.7.0",
+    "tslib": "^2.6.0",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.1",
+    "@infra-blocks/github": "^0.2.0",
+    "verror": "^1.10.1"
+  }
+}

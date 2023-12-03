@@ -1,0 +1,27 @@
+name: Git tag and publish
+
+permissions:
+  contents: write
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - labeled
+      - unlabeled
+      - closed
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  git-tag-semver-from-label:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: infrastructure-blocks/git-tag-semver-from-label-action@v1
+        with:
+          release-branch: master

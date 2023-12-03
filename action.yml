@@ -1,0 +1,14 @@
+name: Template action
+description: Does not do anything, it's a template
+inputs:
+  example:
+    description: An example input
+    required: true
+outputs:
+  example-output:
+    description: An example output
+runs:
+  using: "docker"
+  image: Dockerfile
+  args:
+    - ${{ inputs.example }}
