@@ -29,5 +29,5 @@ RUN cd /action/ && \
     npm prune --production && \
     rm -rf src tsconfig.json tsconfig.build.json
 
-COPY entrypoint.sh ./
-ENTRYPOINT ["./entrypoint.sh"]
+COPY entrypoint.sh /action/
+ENTRYPOINT ["/action/entrypoint.sh"]
