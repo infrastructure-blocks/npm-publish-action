@@ -33,12 +33,5 @@ npm install
 
 ### Releasing
 
-Once a PR has been approved and merged, the maintainer should create and push a tag on the latest HEAD ref.
-The tag should follow [semantic versioning](https://semver.org/). Example:
-
-```shell
-git checkout master
-git pull
-git tag v1.0.3 # patch update
-git push --tags
-```
+The releasing is handled at git level with semantic versioning tags. Those are automatically generated and managed
+by the [git-tag-semver-from-label-action](https://github.com/infrastructure-blocks/git-tag-semver-from-label-action).
