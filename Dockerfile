@@ -1,4 +1,9 @@
 # Main container
+# Github actions runs the container with some specific configuration:
+# - The user is root
+# - The $HOME environment variable is set to /github/home and shared as a volume from the runner folder: /home/runner/work/_temp/_github_home
+# - The workdir is set to /github/workspace
+# - Contrary to their documentation, the inputs are correctly passed as INTPUT_* environment variables
 FROM ubuntu:22.04 AS base
 
 ONBUILD COPY .nvmrc ./
