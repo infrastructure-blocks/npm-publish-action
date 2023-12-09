@@ -24,8 +24,6 @@ export interface Config {
   distTags: string[];
   prerelease: boolean;
   dryRun: boolean;
-  // TODO: remove in favor of step working-directory
-  cwd: string;
 }
 
 export interface NpmPublishOutputs extends Outputs {
@@ -199,8 +197,11 @@ export class NpmPublishPrereleaseHandler extends BaseNpmPublishHandler {
 
 export function createHandler(params: { config: Config }): Handler {
   const { config } = params;
+  core.debug(
+    `creating handler with config: ${JSON.stringify(config, null, 2)}`
+  );
 
-  const npm = createNpmCli({ workingDirectory: config.cwd });
+  const npm = createNpmCli({});
   if (config.prerelease) {
     return new NpmPublishPrereleaseHandler({ config, npm });
   }
