@@ -45,6 +45,15 @@ abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
 
   async handle(): Promise<NpmPublishOutputs> {
     try {
+      if (core.isDebug()) {
+        core.debug(
+          `handling event with config: ${JSON.stringify(this.config, null, 2)}`
+        );
+
+        const npmConfig = await this.npm.run(["config", "list"]);
+        core.debug(`npm config: \n${npmConfig.stdout}`);
+      }
+
       const packageJson = await this.parseWorkspacePackageJson();
       const version = await this.inferVersion({ packageJson });
       const gitTag = await this.bumpVersion({ version });
@@ -197,11 +206,7 @@ export class NpmPublishPrereleaseHandler extends BaseNpmPublishHandler {
 
 export function createHandler(params: { config: Config }): Handler {
   const { config } = params;
-  core.debug(
-    `creating handler with config: ${JSON.stringify(config, null, 2)}`
-  );
-
-  const npm = createNpmCli({});
+  const npm = createNpmCli();
   if (config.prerelease) {
     return new NpmPublishPrereleaseHandler({ config, npm });
   }
