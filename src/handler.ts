@@ -50,7 +50,7 @@ abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
           `handling event with config: ${JSON.stringify(this.config, null, 2)}`
         );
 
-        const npmConfig = await this.npm.run(["config", "list"]);
+        const npmConfig = await this.npm.run(["config", "ls", "-l"]);
         core.debug(`npm config: \n${npmConfig.stdout}`);
       }
 
@@ -60,7 +60,7 @@ abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
       await this.publish({ packageJson, version });
 
       return {
-        released: version,
+        released: `${packageJson.name}@${version}`,
         "git-tag": gitTag,
       };
     } catch (err) {
