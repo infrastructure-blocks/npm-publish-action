@@ -49,12 +49,12 @@ abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
     try {
       const packageJson = await this.parseWorkspacePackageJson();
       const version = await this.inferVersion({ packageJson });
-      await this.bumpVersion({ version });
+      const gitTag = await this.bumpVersion({ version });
       await this.publish({ packageJson, version });
 
       return {
         released: version,
-        "git-tag": `v${version}`,
+        "git-tag": gitTag,
       };
     } catch (err) {
       throw new VError(
