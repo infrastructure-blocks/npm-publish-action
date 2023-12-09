@@ -23,7 +23,6 @@ async function main() {
       dryRun: inputs["dry-run"],
       // TODO: as CSV from lib.
       distTags: inputs["dist-tags"].split(",").map((token) => token.trim()),
-      cwd: process.env.GITHUB_WORKPSACE || process.cwd(),
     },
   });
   const outputs = await handler.handle();

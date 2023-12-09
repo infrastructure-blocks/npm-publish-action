@@ -22,8 +22,6 @@ description: |
   the NODE_AUTH_TOKEN environment variable. The user is also free to provide an .npmrc file with their project
   containing a definition leveraging a different environment variable. For example:
   //registry.npmjs.org/:_authToken=${NPM_TOKEN}
-  
-  Finally, the action operates under the GITHUB_WORKSPACE directory.
 
 inputs:
   version:
@@ -54,4 +52,5 @@ runs:
   args:
     - ${{ inputs.version }}
     - ${{ inputs.prerelease }}
+    - ${{ inputs.dist-tags }}
     - ${{ inputs.dry-run }}
