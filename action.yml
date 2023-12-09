@@ -45,6 +45,9 @@ outputs:
   released:
     description: |
       The full name and version of the released package. Example: @infra-blocks/checks@1.2.3
+  git-tag:
+    description: |
+      The git tag applied to the commit, if any running in release mode. Example: v1.2.3
 runs:
   using: "docker"
   image: Dockerfile

@@ -24,11 +24,13 @@ export interface Config {
   distTags: string[];
   prerelease: boolean;
   dryRun: boolean;
+  // TODO: remove in favor of step working-directory
   cwd: string;
 }
 
 export interface NpmPublishOutputs extends Outputs {
   released: string;
+  ["git-tag"]: string;
 }
 
 abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
@@ -52,6 +54,7 @@ abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
 
       return {
         released: version,
+        "git-tag": `v${version}`,
       };
     } catch (err) {
       throw new VError(
@@ -70,7 +73,7 @@ abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
     packageJson: PackageJson;
   }): Promise<string>;
 
-  protected abstract bumpVersion(params: { version: string }): Promise<void>;
+  protected abstract bumpVersion(params: { version: string }): Promise<string>;
 
   protected async parseWorkspacePackageJson() {
     // Take the caller's package and not ours.
@@ -129,6 +132,7 @@ export class NpmPublishReleaseHandler extends BaseNpmPublishHandler {
     core.info(`bumping package version to ${version}`);
     // Not creating commits if running in dry mode.
     await this.npm.version(version, { gitTagVersion: !this.config.dryRun });
+    return this.config.dryRun ? "" : `v${version}`;
   }
 }
 
@@ -189,6 +193,7 @@ export class NpmPublishPrereleaseHandler extends BaseNpmPublishHandler {
       gitTagVersion: false,
       allowSameVersion: true,
     });
+    return "";
   }
 }
 
