@@ -10,7 +10,7 @@ ONBUILD COPY .nvmrc ./
 # Installs the node version of the project.
 ONBUILD RUN apt-get update && \
     # Curl is also required by NVM to install nodejs. \
-    apt-get install -y curl && \
+    apt-get install -y curl git && \
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | PROFILE=/root/.profile bash && \
     # Remove line that turns off messages, since it prints an error message because we are \
     # in a container. \
