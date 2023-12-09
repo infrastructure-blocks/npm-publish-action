@@ -4,4 +4,4 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    container_name: github-action-typescript-template
+    container_name: npm-publish-action
