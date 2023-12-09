@@ -60,7 +60,7 @@ abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
       await this.publish({ packageJson, version });
 
       return {
-        released: version,
+        released: `${packageJson.name}@${version}`,
         "git-tag": gitTag,
       };
     } catch (err) {
