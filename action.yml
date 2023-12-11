@@ -1,28 +1,6 @@
 name: NPM publish action
 description: |
-  This action versions and publishes an NPM package.
-  
-  First, it runs `npm version` with the version provided as input. That version can either be "patch", "minor" or
-  "major"
-  
-  When we are running in production mode (prerelease = false), `npm version` will generate a git tag and a commit,
-  and this action will push those against the current branch.
-  
-  When we are running in prerelease mode (prerelease = true), the effective version becomes `pre${version}`.
-  For example, if the user provides version "patch" and prerelease "true", then the action invokes
-  `npm version` with `prepatch`. No git tags and commits will be pushed to the branch neither. It is assumed
-  we are on a development branch, and in order to prevent developers from constantly having to pull changes,
-  we simply publish the packages. The second time the action is run on the same branch, the new prepatch version's
-  prerelease number is incremented instead.
-  
-  Users can set their `preid` in the repository's .npmrc file.  
-
-  The NPM token used to authenticate with NPM to publish the package isn't required because there
-  are several ways to set it up. For example, if you use @action/setup-node, the token can be passed with
-  the NODE_AUTH_TOKEN environment variable. The user is also free to provide an .npmrc file with their project
-  containing a definition leveraging a different environment variable. For example:
-  //registry.npmjs.org/:_authToken=${NPM_TOKEN}
-
+  Publishes NPM packages using the `npm` CLI.
 inputs:
   version:
     description: The version bump type. Either "major", "minor" or "patch".
@@ -40,12 +18,36 @@ inputs:
     required: false
     default: "false"
 outputs:
-  released:
+  package-name:
     description: |
-      The full name and version of the released package. Example: @infra-blocks/checks@1.2.3
+      The name of the processed package.
+      
+      Example: @infra-blocks/checks
+  version:
+    description: |
+      The version of the released package, or would be released version in dry-run.
+      
+      Example: 1.2.3
+  dist-tags:
+    description: |
+      The list of dist tags applied to the released package, as a JSON array.
+      This output is available in dry-run too, even though no packages have been released.
+      
+      Example: [latest, git-sha-12345]
   git-tag:
     description: |
-      The git tag applied to the commit, if any running in release mode. Example: v1.2.3
+      The git tag applied to the commit, if any. This output is an empty when running in prerelease mode.
+      It is available in dry-run too, even though no actual git tagging might have happened (prerelease false).
+      
+      Example: v1.2.3
+  links:
+    description: |
+      A list of markdown links to the released package's registry versions of the form:
+      [
+        "[<package-identifier>](<version-registry-url>)"
+      ]
+      This output always: ["[<package>@dry-run](<latest-registry-url>)"] in dry-run.
+
 runs:
   using: "docker"
   image: Dockerfile
