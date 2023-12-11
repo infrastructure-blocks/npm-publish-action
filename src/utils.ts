@@ -31,3 +31,11 @@ export async function parsePackageJson(
     await fs.readFile(filePath, { encoding: "utf-8" })
   ) as PackageJson;
 }
+
+export function getNpmJsRegistryLink(params: {
+  packageName: string;
+  ref: string;
+}) {
+  const { packageName, ref } = params;
+  return `https://www.npmjs.com/package/${packageName}/v/${ref}`;
+}

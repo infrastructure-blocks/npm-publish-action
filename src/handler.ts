@@ -1,4 +1,8 @@
-import { NpmPublishVersion, parsePackageJson } from "./utils.js";
+import {
+  getNpmJsRegistryLink,
+  NpmPublishVersion,
+  parsePackageJson,
+} from "./utils.js";
 import path from "node:path";
 import { PackageJson } from "types-package-json";
 import { createNpmCli, NpmCli } from "./npm.js";
@@ -27,8 +31,11 @@ export interface Config {
 }
 
 export interface NpmPublishOutputs extends Outputs {
-  released: string;
-  ["git-tag"]: string;
+  "package-name": string;
+  version: string;
+  "git-tag": string;
+  "dist-tags": string;
+  links: string;
 }
 
 abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
@@ -56,12 +63,22 @@ abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
 
       const packageJson = await this.parseWorkspacePackageJson();
       const version = await this.inferVersion({ packageJson });
-      const gitTag = await this.bumpVersion({ version });
+      await this.bumpVersion({ version });
       await this.publish({ packageJson, version });
 
+      const packageName = packageJson.name;
+      const distTags = this.config.distTags;
+      const gitTag = `v${version}`;
+      const links = this.getLinks({
+        packageName,
+        refs: [version, ...distTags],
+      });
       return {
-        released: `${packageJson.name}@${version}`,
+        "package-name": packageName,
+        version,
+        "dist-tags": JSON.stringify(distTags),
         "git-tag": gitTag,
+        links: JSON.stringify(links),
       };
     } catch (err) {
       throw new VError(
@@ -80,7 +97,7 @@ abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
     packageJson: PackageJson;
   }): Promise<string>;
 
-  protected abstract bumpVersion(params: { version: string }): Promise<string>;
+  protected abstract bumpVersion(params: { version: string }): Promise<void>;
 
   protected async parseWorkspacePackageJson() {
     // Take the caller's package and not ours.
@@ -115,6 +132,30 @@ abstract class BaseNpmPublishHandler implements Handler<NpmPublishOutputs> {
       }
     }
   }
+
+  private getLinks(params: {
+    packageName: string;
+    refs: ReadonlyArray<string>;
+  }): Array<string> {
+    const { packageName, refs } = params;
+
+    if (this.config.dryRun) {
+      return [
+        `[${packageName}@$dry-run](${getNpmJsRegistryLink({
+          packageName,
+          ref: "latest",
+        })})`,
+      ];
+    }
+
+    return refs.map(
+      (ref) =>
+        `[${packageName}@${ref}](${getNpmJsRegistryLink({
+          packageName,
+          ref,
+        })})`
+    );
+  }
 }
 
 export class NpmPublishReleaseHandler extends BaseNpmPublishHandler {
@@ -139,7 +180,6 @@ export class NpmPublishReleaseHandler extends BaseNpmPublishHandler {
     core.info(`bumping package version to ${version}`);
     // Not creating commits if running in dry mode.
     await this.npm.version(version, { gitTagVersion: !this.config.dryRun });
-    return this.config.dryRun ? "" : `v${version}`;
   }
 }
 
@@ -200,7 +240,6 @@ export class NpmPublishPrereleaseHandler extends BaseNpmPublishHandler {
       gitTagVersion: false,
       allowSameVersion: true,
     });
-    return "";
   }
 }
 
