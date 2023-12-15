@@ -1,7 +1,7 @@
 services:
   action:
-    image: infra-blocks/github-action-typescript-template
+    image: infra-blocks/github-action-typescript-docker-template
     build:
       context: ./
       dockerfile: Dockerfile
-    container_name: github-action-typescript-template
+    container_name: github-action-typescript-docker-template
