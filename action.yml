@@ -1,7 +1,7 @@
 name: Template action
 description: Does not do anything, it's a template
 inputs:
-  example:
+  example-input:
     description: An example input
     required: true
 outputs:

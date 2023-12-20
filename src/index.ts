@@ -14,12 +14,12 @@ async function main() {
   core.debug(`received context: ${JSON.stringify(context, null, 2)}`);
   checkSupportedEvent(context.eventName, [Event.Push]);
   const inputs = getInputs({
-    example: stringInput(),
+    "example-input": stringInput(),
   });
   const handler = createHandler({
     context,
     config: {
-      example: inputs.example,
+      exampleInput: inputs["example-input"],
     },
   });
   const outputs = await handler.handle();
