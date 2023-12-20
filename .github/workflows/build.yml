@@ -1,6 +1,10 @@
 name: Build
 
-on: [push]
+on:
+  push:
+    # This turns off running for tags. Tags are being pushed by the CI upon merges (possibly).
+    branches:
+      - "**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
