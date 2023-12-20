@@ -1,6 +1,6 @@
 services:
   action:
-    image: infra-blocks/github-action-typescript-template
+    image: infra-blocks/npm-publish-action
     build:
       context: ./
       dockerfile: Dockerfile
