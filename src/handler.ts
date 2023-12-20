@@ -8,7 +8,7 @@ export interface Handler<O extends Outputs = Outputs> {
 }
 
 export interface Config {
-  example: string;
+  exampleInput: string;
 }
 
 export interface ExampleOutputs extends Outputs {
@@ -29,7 +29,7 @@ export class HandlerImpl implements Handler<ExampleOutputs> {
 
   handle(): Promise<ExampleOutputs> {
     const outputs = {
-      ["example-output"]: `got input ${this.config.example}`,
+      ["example-output"]: `got input ${this.config.exampleInput}`,
     };
     return Promise.resolve(outputs);
   }
