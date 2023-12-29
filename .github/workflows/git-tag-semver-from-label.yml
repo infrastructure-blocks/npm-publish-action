@@ -1,9 +1,6 @@
-name: Git tag and publish
+name: Git Tag Semver From Label
 
-permissions:
-  contents: write
-  pull-requests: write
-
+# Running on all those events allow to check for the proper existence of a versioning tag.
 on:
   pull_request:
     branches:
@@ -16,13 +13,9 @@ on:
       - unlabeled
       - closed
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   git-tag-semver-from-label:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-      - uses: infrastructure-blocks/git-tag-semver-from-label-action@v1
+    uses: infrastructure-blocks/git-tag-semver-from-label-workflow/.github/workflows/git-tag-semver-from-label.yml@v1
+    permissions:
+      contents: write # Required to push tags
+      pull-requests: write # Required to push PR comments
